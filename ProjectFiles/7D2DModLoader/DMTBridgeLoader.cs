@@ -39,10 +39,11 @@ namespace DMTBridgeLoader
                     try
                     {
                         var modinfoPath = path + "/ModInfo.xml";
+                        var dmtpath = path + "/Harmony";
 
-                        if (File.Exists(modinfoPath))
+                        if (File.Exists(modinfoPath) && Directory.Exists(dmtpath))
                         {
-                            var files = Directory.GetFiles(path + "/Harmony", "*.dll");
+                            var files = Directory.GetFiles(dmtpath, "*.dll");
                             foreach (var file in files)
                             {
                                 Logger.LogInfo("DLL found: " + file);
