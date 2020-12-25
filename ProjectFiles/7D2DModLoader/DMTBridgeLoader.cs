@@ -4,12 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
-using DMT;
 using UnityEngine;
 
 namespace DMTBridgeLoader
 {
-
+    public interface IHarmony
+    {
+        void Start();
+    }
+    
     [BepInPlugin("org.dmtbridgeloader.plugin", "DMT Bridge", "1.0.0.0")]
     public class DMTBridgeLoaderPlugin : BaseUnityPlugin
     {
@@ -18,8 +21,7 @@ namespace DMTBridgeLoader
             // Fix up the output log's double spaces
             Application.SetStackTraceLogType(UnityEngine.LogType.Log, StackTraceLogType.None);
             Application.SetStackTraceLogType(UnityEngine.LogType.Warning, StackTraceLogType.None);
-
-            Debug.Log("Initializing DMT Bridge Plugin");
+            Logger.LogInfo("Initializing DMT Bridge Plugin");
             HookHarmony();
         }
         public void HookHarmony()
@@ -29,22 +31,21 @@ namespace DMTBridgeLoader
 
             if (Directory.Exists(modPath))
             {
-                Debug.Log("Start harmony loading: " + modPath);
+                Logger.LogInfo("Start harmony loading: " + modPath);
                 string[] directories = Directory.GetDirectories(modPath);
 
                 foreach (string path in directories)
                 {
                     try
                     {
-
                         var modinfoPath = path + "/ModInfo.xml";
 
                         if (File.Exists(modinfoPath))
                         {
-                            var files = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories);
+                            var files = Directory.GetFiles(path + "/Harmony", "*.dll");
                             foreach (var file in files)
                             {
-                                Debug.Log("DLL found: " + file);
+                                Logger.LogInfo("DLL found: " + file);
                                 var assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(file));
                                 var instances = from t in assembly.GetTypes()
                                                 where t.GetInterfaces().Contains(typeof(IHarmony))
@@ -58,8 +59,8 @@ namespace DMTBridgeLoader
                     }
                     catch (Exception e)
                     {
-                        Debug.Log("Failed loading modded DLL from " + Path.GetFileName(path));
-                        Debug.Log("\t" + e.ToString());
+                        Logger.LogInfo("Failed loading modded DLL from " + Path.GetFileName(path));
+                        Logger.LogInfo("\t" + e.ToString());
                     }
                 }
 
