@@ -4,14 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using BepInEx;
+using DMT;
 using UnityEngine;
 
 namespace DMTBridgeLoader
 {
-    public interface IHarmony
-    {
-        void Start();
-    }
     
     [BepInPlugin("org.dmtbridgeloader.plugin", "DMT Bridge", "1.0.0.0")]
     public class DMTBridgeLoaderPlugin : BaseUnityPlugin
@@ -22,6 +19,7 @@ namespace DMTBridgeLoader
             Application.SetStackTraceLogType(UnityEngine.LogType.Log, StackTraceLogType.None);
             Application.SetStackTraceLogType(UnityEngine.LogType.Warning, StackTraceLogType.None);
             Logger.LogInfo("Initializing DMT Bridge Plugin");
+
             HookHarmony();
         }
         public void HookHarmony()

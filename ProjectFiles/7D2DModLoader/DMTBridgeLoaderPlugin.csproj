@@ -39,6 +39,9 @@
     <Reference Include="BepInEx, Version=5.4.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BepInEx.BaseLib.5.4.4\lib\net35\BepInEx.dll</HintPath>
     </Reference>
+    <Reference Include="DMT">
+      <HintPath>..\..\BepInEx\plugins\DMT.dll</HintPath>
+    </Reference>
     <Reference Include="LogLibrary">
       <HintPath>References\LogLibrary.dll</HintPath>
     </Reference>
